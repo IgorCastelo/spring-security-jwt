@@ -17,7 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class ConfigSecurity {
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, SenhaMasterAuthenticationProvider senhaMasterAuthenticationProvider) throws Exception{
         return http
                 .authorizeHttpRequests(customizer-> {
                     customizer.requestMatchers("/public").permitAll();
@@ -25,6 +25,7 @@ public class ConfigSecurity {
                 })
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
+                .authenticationProvider(senhaMasterAuthenticationProvider)
                 .build();
     }
     @Bean
