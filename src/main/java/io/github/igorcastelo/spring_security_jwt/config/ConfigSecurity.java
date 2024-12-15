@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,6 +26,7 @@ public class ConfigSecurity {
         return http
                 .authorizeHttpRequests(customizer-> {
                     customizer.requestMatchers("/public").permitAll();
+                    customizer.requestMatchers("/private").hasRole("ADMIN");
                     customizer.anyRequest().authenticated();
                 })
                 .httpBasic(Customizer.withDefaults())
@@ -52,5 +55,10 @@ public class ConfigSecurity {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults(){
+        return new GrantedAuthorityDefaults("");
     }
 }

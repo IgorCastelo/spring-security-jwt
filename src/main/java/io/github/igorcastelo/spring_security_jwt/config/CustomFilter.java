@@ -27,7 +27,7 @@ public class CustomFilter extends OncePerRequestFilter {
             String secretHeader = request.getHeader("X-secret");
 
             if (secretHeader.equals("s3cret")){
-                Authentication authentication = new UsernamePasswordAuthenticationToken("muito secreto", null, List.of( new SimpleGrantedAuthority("ADMIN")));
+                Authentication authentication = new UsernamePasswordAuthenticationToken("muito secreto", null, List.of( new SimpleGrantedAuthority("USER")));
                 SecurityContext securityContext = SecurityContextHolder.getContext();
                 securityContext.setAuthentication(authentication);
 
